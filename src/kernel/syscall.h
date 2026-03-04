@@ -11,9 +11,7 @@
 
 void init_syscall();
 
-// Force cdecl calling convention (stack-based)
-void __attribute__((cdecl)) syscall_handler(uint16_t ax, uint16_t bx,
-                                            uint16_t cx, uint16_t dx,
-                                            uint16_t si, uint16_t di);
+// Return value will be propagated to AX
+uint16_t __attribute__((cdecl)) syscall_handler(uint16_t ax, uint16_t bx, uint16_t cx, uint16_t dx, uint16_t si, uint16_t di);
 
 #endif

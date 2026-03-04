@@ -12,22 +12,9 @@ syscall_entry:
     mov ds, ax
     mov es, ax
 
-    ; After pusha, push ds, push es:
-    ; [sp+0]  = ES
-    ; [sp+2]  = DS
-    ; [sp+4]  = DI
-    ; [sp+6]  = SI
-    ; [sp+8]  = BP
-    ; [sp+10] = SP
-    ; [sp+12] = BX
-    ; [sp+14] = DX
-    ; [sp+16] = CX
-    ; [sp+18] = AX (Syscall Number)
-
     mov bp, sp
     
-    ; Push arguments for cdecl (right to left):
-    ; void syscall_handler(ax, bx, cx, dx, si, di)
+    ; Push arguments for cdecl (right to left)
     push word [bp+4]  ; DI
     push word [bp+6]  ; SI
     push word [bp+14] ; DX
@@ -37,8 +24,11 @@ syscall_entry:
     
     call syscall_handler
     
-    ; Clean up stack (6 words * 2 bytes = 12)
-    add sp, 12
+    ; The C return value is in AX. 
+    ; We want the caller's AX (saved at [bp+18]) to be this value after popa.
+    mov [bp+18], ax
+
+    add sp, 12      ; Clean up arguments
 
     pop es
     pop ds
