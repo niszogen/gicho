@@ -1,4 +1,5 @@
 #include "commands.h"
+#include "syscall.h"
 
 #include "lib/stdio.h"
 #include "lib/string.h"
@@ -6,6 +7,8 @@
 void main() {
     char input[127];
     char* token;
+
+    init_syscall();
 
     clear();
 

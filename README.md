@@ -49,7 +49,7 @@ Gicho has 9 available commands:
 - `write <drive number> <sector amount> [memory address] [offset]` - writes sectors from memory to a disk. THe defaults are the same as for `read`.
 - `run [address]`- executes a program at the specified address. By default, it's `0x7e00`.
 
-The image file contains two sample programs, `hello.asm` and `rainbow.asm`. You can run them by first reading them into memory by running `read 0x80 1 18`, then executing one of them with the `run` command for `hello.asm` and `run 0x7e29` for `rainbow.asm`.
+The image file contains three sample programs, `hello.asm`, `hellosyscall.asm` and `rainbow.asm`. You can run them by first reading them into memory by running `read 0x80 1 18` for `hello.asm`, `read 0x80 1 19` for `hellosyscall.asm` or `read 0x80 1 20` for `rainbow.asm`, then executing one of them with the `run`.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

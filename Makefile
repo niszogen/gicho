@@ -39,7 +39,7 @@ $(BUILD_DIR)/$(EXECUTABLE): $(BUILD_DIR)/bootloader.bin $(BUILD_DIR)/kernel.bin 
 $(BUILD_DIR)/bootloader.bin: $(SRC_DIR)/bootloader/main.asm $(wildcard $(SRC_DIR)/bootloader/*.asm) $(BUILD_DIR)/kernel.bin | $(BUILD_DIR)
 	$(AS) -f bin -DKERNEL_SIZE=$$(($(shell stat -c %s $(BUILD_DIR)/kernel.bin) / 512)) $< -o $@
 
-$(BUILD_DIR)/kernel.bin: $(BUILD_DIR)/kernel/entry_point.o $(OBJECTS)
+$(BUILD_DIR)/kernel.bin: $(BUILD_DIR)/kernel/entry_point.o $(BUILD_DIR)/kernel/syscall_entry.o $(OBJECTS)
 	$(LD) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 	truncate -s %512 $@
 
@@ -52,6 +52,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm | $(BUILD_DIR)
 
 $(BUILD_DIR)/%.bin: $(SRC_DIR)/%.asm | $(BUILD_DIR)
 	$(AS) -f bin $^ -o $@
+	truncate -s %512 $@
 
 $(BUILD_DIR):
 	mkdir -p $@/kernel/lib $@/samples
